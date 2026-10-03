@@ -376,11 +376,21 @@ static u8 PickWildMonNature(void)
     return Random() % NUM_NATURES;
 }
 
+// Pins the wild Spinda's PID for video footage; see manim-spinda/spinda_video/core.py FEATURED_PID.
+#define SPINDA_VIDEO_FIXED_PID 0xECD8D5DA
+
 static void CreateWildMon(u16 species, u8 level)
 {
     bool32 checkCuteCharm;
 
     ZeroEnemyPartyMons();
+
+    if (species == SPECIES_SPINDA)
+    {
+        CreateMon(&gEnemyParty[0], species, level, USE_RANDOM_IVS, TRUE, SPINDA_VIDEO_FIXED_PID, OT_ID_PLAYER_ID, 0);
+        return;
+    }
+
     checkCuteCharm = TRUE;
 
     switch (gSpeciesInfo[species].genderRatio)
